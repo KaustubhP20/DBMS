@@ -1,0 +1,14 @@
+1. select book.book_id, title, publisher_name, author_name, branch_name, no_of_copies from book 
+   join book_authors on book.book_id = book_authors.book_id join book_copies on book.book_id = book_copies.book_id 
+   join library_branch on book_copies.branch_id = library_branch.branch_id;
+
+2. select title, branch_name, card_no, date_out, due_date from book_lending 
+   join book on book_lending.book_id = book.book_id join library_branch on book_lending.branch_id = library_branch.branch_id 
+   where date_out between '2017-01-01' and '2017-06-30';
+
+3. delete from book where title = 'Databases';
+
+4. select pub_year, count(*) as total_no_of_books from book group by pub_year order by pub_year;
+
+5. create view books as select title, sum(no_of_copies) as copies from book 
+   join book_copies on book.book_id = book_copies.book_id group by book.book_id;

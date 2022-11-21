@@ -1,0 +1,27 @@
+
+1. select distinct address from employee;
+
+2. select max(salary), min(salary) from employee;
+
+3. select * from employee order by salary;
+
+4. select ename from employee where address = 'Nasik' or address = 'Pune';
+
+5. select ename from employee where commission is null;
+
+6. update employee set address = 'Nasik' where ename = 'Amit';
+
+7. select * from employee where ename like 'A%';
+
+8. select count(*) from employee where address = 'Mumbai';
+
+9. select address, count(*) from employee group by address;
+
+10. select distinct address from employee, project where address = addr;
+
+11. select address, min(salary) from employee group by address;
+
+12. select address, max(salary) from employee group by address having max(salary) > 26000;
+
+13. delete from employee where salary > 30000;
+

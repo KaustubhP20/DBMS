@@ -1,0 +1,6 @@
+1. select * from loan order by amount desc, loan_no;
+
+2. N/A
+
+3. select c_name, c_city, street from customer c join depositor d on c.c_no = d.c_no join borrower b on c.c_no = b.c_no 
+   join account a on d.acc_no = a.acc_no join loan l on b.loan_no = l.loan_no where l.amount > (3 * a.balance);

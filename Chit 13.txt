@@ -1,0 +1,6 @@
+create table jobs(job_id int primary key, job_desc varchar(20));
+
+2. create table employee(employee_id int primary key, first_name varchar(20), last_name varchar(20), job_id int, salary int, 
+   foreign key (job_id) references jobs(job_id) on delete no action on update no action);
+
+Try some update and delete queries

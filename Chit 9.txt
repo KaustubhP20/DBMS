@@ -1,0 +1,8 @@
+ db.orderinfo.aggregate([{$group:{_id:"$name", total_price:{$sum:"$price"}}}]).sort({total_price:1})
+
+2. db.orderinfo.aggregate([{$group:{_id:"$name"}}])
+
+3. db.orderinfo.find({status:'A'}, {_id:1, price:1})
+
+4. db.orderinfo.deleteMany({status:'A'})
+

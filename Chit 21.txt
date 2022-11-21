@@ -1,0 +1,72 @@
+import com.mongodb.*;
+
+import java.util.Scanner;
+
+public class Chit21 {
+    public static void main(String[] args) {
+        int ch, i = 0;
+        String str;
+
+        MongoClient client = new MongoClient("localhost", 27017);
+        DB db1 = client.getDB("chit21");
+        DBCollection col = db1.createCollection("Students", null);
+
+        Scanner sc = new Scanner(System.in);
+
+        do {
+            System.out.println("1.Insert\n2.Display\n3.Update\n4.Delete\n5.Drop\n6.Exit");
+            System.out.println("Enter a choice:");
+
+            ch = Integer.parseInt(sc.nextLine());
+
+            switch(ch) {
+                case 1:
+                    System.out.println("Enter name:");
+                    str = sc.nextLine();
+                    BasicDBObject obj1 = new BasicDBObject().append("Name", str);
+                    col.save(obj1);
+                    System.out.println("Inserted");
+                    break;
+
+                case 2:
+                    DBCursor cur = col.find();
+                    while(cur.hasNext()) {
+                        System.out.println(cur.next());
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Enter name to be replaced:");
+                    str = sc.nextLine();
+                    BasicDBObject obj2 = new BasicDBObject().append("Name", str);
+                    System.out.println("Enter new name:");
+                    str = sc.nextLine();
+                    BasicDBObject obj3 = new BasicDBObject().append("Name", str);
+                    col.update(obj2, obj3);
+                    System.out.println("Updated");
+                    break;
+
+                case 4:
+                    System.out.println("Enter name:");
+                    str = sc.nextLine();
+                    BasicDBObject obj4 = new BasicDBObject().append("Name", str);
+                    col.remove(obj4);
+                    System.out.println("Deleted");
+                    break;
+
+                case 5:
+                    col.drop();
+                    System.out.println("Collection Dropped");
+                    break;
+
+                case 6:
+                    System.exit(0);
+            }
+
+            System.out.println("Enter 1 to continue or 0 to exit");
+            i = Integer.parseInt(sc.nextLine());
+        }while(i == 1);
+
+        client.close();
+    }
+}

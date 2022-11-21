@@ -1,0 +1,14 @@
+1. use department
+
+2. db.createCollection('teacher')
+   db.teacher.insertMany([{name:'A', department:'Computer', experience:13, salary:17000}, {name:'B', department:'ENTC', experience:11, salary:12000}, 
+   {name:'C', department:'Computer', experience:15, salary:18300}, {name:'D', department:'ENTC', experience:15, salary:22400}])
+
+3. db.teacher.aggregate([{$group:{_id:"$department", average_salary:{$avg:"$salary"}}}])
+
+4. db.teacher.aggregate([{$group:{_id:"$department", no_of_employees:{$sum:1}}}])
+
+5. db.teacher.aggregate([{$group:{_id:"$department", min_salary:{$min:"$salary"}}}])
+
+6. db.teacher.createIndex({name:1})
+   db.teacher.dropIndex({name:1})

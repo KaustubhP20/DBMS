@@ -1,0 +1,33 @@
+create table account(acc_no int primary key, branch_name varchar(20) not null, balance int not null, check(balance >= 0));
+
+create table branch(branch_name varchar(20) not null, branch_city varchar(20) not null, assets int not null check(assets >= 0));
+
+create table customer(cust_name varchar(20) not null, cust_street int not null, cust_city varchar(20) not null);
+
+create table depositor(cust_name varchar(20) not null, acc_no int, foreign key (acc_no) references account(acc_no));
+
+create table loan(loan_no int primary key, branch_name varchar(20) not null, amount int not null, check(amount >= 0));
+
+create table borrower(cust_name varchar(20) not null, loan_no int, foreign key (loan_no) references loan(loan_no) on delete cascade);
+
+1. select distinct branch_name from loan;
+
+2. select loan_no from loan where branch_name = 'Akurdi' and amount > 12000;
+
+3. select cust_name, loan.loan_no, amount from loan inner join borrower on loan.loan_no = borrower.loan_no;
+
+4. select cust_name from loan l, borrower b where l.loan_no = b.loan_no and branch_name = 'Akurdi' order by cust_name;
+
+5. select cust_name from account a, depositor d where a.acc_no = d.acc_no union select cust_name from loan l, borrower b where l.loan_no = b.loan_no;
+
+6. select avg(balance) from account where branch_name = 'Akurdi';
+
+7. select branch_name, avg(balance) from account group by branch_name;
+
+8. select branch_name, count(*) from depositor d, account a where a.acc_no = d.acc_no group by branch_name;
+
+9. select branch_name, avg(balance) from account group by branch_name having avg(balance) > 12000;
+
+10. select count(*) from customer;
+
+11. delete from loan where amount between 1300 and 1500;

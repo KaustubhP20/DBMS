@@ -1,0 +1,11 @@
+1. select p.p_name, city from patient p, visit v where date_of_visit = '2017-07-13' and p.p_name = v.p_name;
+
+2. select name, count(*) from physician p, visit v where p.reg_no = v.reg_no group by v.reg_no;
+   select date_of_visit, sum(fee) from visit group by date_of_visit;
+
+3. select v.p_name, street, city from patient p, visit v where p.p_name = v.p_name;
+
+4. create view visitors as select * from visit where date_of_visit between '2021-01-01' and '2022-12-31';
+   select * from visitors;
+
+5. create index patient_name on patient(p_name);

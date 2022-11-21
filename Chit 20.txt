@@ -1,0 +1,38 @@
+Indexing:
+1. db.createCollection('Student')
+
+2. db.Student.insertMany([{rollno:1, name:'navin', subject:'DMSA', marks:78}, {rollno:2, name:'anusha', subject:'OSD', marks:75}, 
+   {rollno:3, name:'ravi', subject:'TOC', marks:69}, {rollno:4, name:'veena', subject:'TOC', marks:70}, 
+   {rollno:5, name:'pravini', subject:'OSD', marks:80}, {rollno:6, name:'reena', subject:'DMSA', marks:50}, 
+   {rollno:7, name:'geeta', subject:'CN', marks:90}, {rollno:8, name:'akash', subject:'CN', marks:85}])
+
+3. db.Student.createIndex({rollno:1})
+
+4. db.Student.createIndex({rollno:1, name:1})
+
+5. db.Student.createIndex({name:1}, {unique:true})
+
+6. db.Student.getIndexes()
+
+7. db.Student.dropIndex('name_1')
+
+
+Aggregation:
+
+1. db.Student.aggregate([{$group:{_id:"$subject", max_marks:{$max:"$marks"}}}])
+
+2. db.Student.aggregate([{$group:{_id:"$subject", min_marks:{$min:"$marks"}}}])
+
+3. db.Student.aggregate([{$group:{_id:"$subject", total_marks:{$sum:"$marks"}}}])
+
+4. db.Student.aggregate([{$group:{_id:"$subject", average_marks:{$avg:"$marks"}}}])
+
+5. db.Student.aggregate([{$group:{_id:"$subject", rollno:{$first:"$rollno"}, name:{$first:"$name"}, 
+   subject:{$first:"$subject"}, marks:{$first:"$marks"}}}])
+
+6. db.Student.aggregate([{$group:{_id:"$subject", rollno:{$last:"$rollno"}, name:{$last:"$name"}, 
+   subject:{$last:"$subject"}, marks:{$last:"$marks"}}}])
+
+7. db.Student.aggregate([{$group:{_id:"$subject", count:{$sum:1}}}])
+
+8. db.Student.aggregate([{$group:{_id:"$subject", count:{$sum:1}}}])

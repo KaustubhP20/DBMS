@@ -1,0 +1,19 @@
+chit8> var map = function(){emit (this.class, 1)}
+   chit8> var reduce = function(k, v) {return Array.sum(v)}
+   chit8> db.Student.mapReduce(map, reduce, {out:'classwisestudents'})
+   chit8> db.classwisestudents.find()
+
+2. chit8> var map = function(){emit (this.class, this.fees)}
+   chit8> var reduce = function(k, v) {return Array.sum(v)}
+   chit8> db.Student.mapReduce(map, reduce, {out:'classwisefees'})
+   chit8> db.classwisefees.find()
+
+3. chit8> var map = function(){emit (this.subject, this.marks)}
+   chit8> var reduce = function(k, v) {return Array.sum(v)}
+   chit8> db.Student.mapReduce(map, reduce, {out:'subjectwisemarks'})
+   chit8> db.subjectwisemarks.find()
+
+4. chit8> var map = function(){emit (this.subject, 1)}
+   chit8> var reduce = function(k, v) {return Array.sum(v)}
+   chit8> db.Student.mapReduce(map, reduce, {out:'subjectwisestudents'})
+   chit8> db.subjectwisestudents.find()

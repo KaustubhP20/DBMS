@@ -1,0 +1,29 @@
+1. chit14> db.createCollection('Teachers')
+
+   chit14> db.createCollection('Department')
+
+   chit14> db.createCollection('Students')
+
+   chit14> db.Teachers.insertMany([{Tname:'T1', Dno:1, Experience:13, Salary:17000, Date_of_joining:new Date(2012-07-21)}, 
+           {Tname:'T2', Dno:2, Experience:17, Salary:9000, Date_of_joining:new Date(2009-02-15)}, 
+	     {Tname:'T3', Dno:1, Experience:8, Salary:21000, Date_of_joining:new Date(2014-11-29)}, 
+	     {Tname:'T4', Dno:2, Experience:19, Salary:7000, Date_of_joining:new Date(2010-04-19)}])
+
+   chit14> db.Department.insertMany([{Dno:1, Dname:'COMP'}, {Dno:2, Dname:'ENTC'}])
+
+   chit14> db.Students.insertMany([{Sname:'abc', Roll_no:1, Class:'FE'}, {Sname:'def', Roll_no:2, Class:'SE'}, 
+	     {Sname:'xyz', Roll_no:3, Class:'TE'}, {Sname:'ghi', Roll_no:4, Class:'BE'}, {Sname:'jkl', Roll_no:5, Class:'FE'}])
+
+2. db.Teachers.find({$and:[{Dno:2}, {Salary:{$gte:10000}}]})
+
+3. db.Students.find({$or:[{Roll_no:2}, {Sname:'xyz'}]})
+
+4. db.Students.update({Roll_no:5}, {$set:{Sname:'Sid'}})
+
+5. db.Students.deleteMany({Class:'FE'})
+
+6. db.Teachers.find({Experience:{$gt:10}})
+
+7. db.Students.createIndex({Roll_no:1})
+
+

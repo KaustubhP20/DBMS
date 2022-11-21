@@ -1,0 +1,47 @@
+1. use Institute
+
+2. db.createCollection('Student')
+
+3. db.Student.insertMany([{RollNo:1, Name:'Yuvraj', Age:16, Branch:'Computer', Address:{City:'Mumbai', State:'Maharashtra'}, Hobbies:['H1', 'H3']}, 
+   {RollNo:2, Name:'Aman', Age:14, Branch:'Computer', Address:{City:'Bangalore', State:'Karnataka'}, Hobbies:['H1', 'H4', 'H5']}, 
+   {RollNo:3, Name:'Amit', Age:12, Branch:'ENTC', Address:{City:'Nagar', State:'Maharashtra'}, Hobbies:['H2', 'H4']}, 
+   {RollNo:4, Name:'John', Age:19, Branch:'Civil', Address:{City:'Ahmedabad', State:'Gujarat'}, Hobbies:['H3', 'H5']}, 
+   {RollNo:5, Name:'Simon', Age:20, Branch:'Mech', Address:{City:'Delhi', State:'Delhi'}, Hobbies:['H2', 'H4', 'H5']}, 
+   {RollNo:6, Name:'Paul', Age:14, Branch:'ENTC', Address:{City:'Indore', State:'Madhya Pradesh'}, Hobbies:['H2', 'H3']}, 
+   {RollNo:7, Name:'Toby', Age:21, Branch:'Civil', Address:{City:'Panaji', State:'Goa'}, Hobbies:['H4', 'H5']}, 
+   {RollNo:8, Name:'Peter', Age:15, Branch:'Mech', Address:{City:'Guwahati', State:'Assam'}, Hobbies:['H2', 'H4']}, 
+   {RollNo:9, Name:'Sunil', Age:11, Branch:'Computer', Address:{City:'Pune', State:'Maharashtra'}, Hobbies:['H1', 'H5']}, 
+   {RollNo:10, Name:'Deepak', Age:22, Branch:'ENTC', Address:{City:'Mumbai', State:'Maharashtra'}, Hobbies:['H1', 'H3']}])
+
+4. db.Student.find()
+
+5. db.Student.find({Age:{$gt:15}})
+
+6. db.Student.find().sort({Name:1})
+
+7. db.Student.update({RollNo:3}, {$set:{Branch:'Computer'}})
+
+8. db.Student.deleteOne({RollNo:1})
+
+9. db.Student.find({Name:/^A/})
+
+10. db.Student.find().count()
+
+11. db.Student.find().limit(5)
+
+12. db.Student.find().skip(3)
+
+13. db.Student.find({Address:{City:'Pune', State:'Maharashtra'}})
+
+14. db.Student.distinct("Address.City")
+
+15. var map = function(){emit(this.Address.City, 1)}
+    var reduce = function(k, v) {return Array.sum(v)}
+    db.Student.mapReduce(map, reduce, {out:'citycount'})
+    db.citycount.find()
+
+16. db.Student.find({}, {Name:1})
+
+17. db.Student.find({}, {Name:1, Hobbies:1})
+
+18. db.Student.drop()

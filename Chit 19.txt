@@ -1,0 +1,15 @@
+1. create table emp(eno int auto_increment primary key, ename varchar(20) not null, address varchar(20) default 'Nashik', joindate date);
+   alter table emp auto_increment = 101;
+
+2. alter table emp add post varchar(20);
+
+3. insert into emp(ename, address, salary, joindate, post) values('Amit', 'Pune', 25000, '2017-05-23', 'HR'), 
+   ('Sneha', 'Pune', 35000, '2018-11-17', 'Manager'), ('Savita', 'Nashik', 28000, '2019-05-21', 'Tech Head'), 
+   ('Pooja', 'Mummbai', 19000, '2020-01-27', 'PR Head'), ('Sagar', 'Mumbai', 25000, '2021-09-12', 'Marketing Head');
+
+   create index emp_name on emp(ename);
+
+4. insert into emp(ename, salary, joindate, post) values('Siddhesh', 21000, '2022-03-27', 'Head');
+
+5. create view emp_data as select ename, salary from emp;
+   select * from emp_data;

@@ -1,0 +1,16 @@
+select Cname, Acc_Type, Amount from Customer c, Account a where c.C_Id = a.C_id and Acc_Type = "Saving";
+
+2. select * from Customer natural join Account;
+   select * from Customer c left join Account a on c.C_Id = a.C_Id;
+   select * from Customer c right join Account a on c.C_Id = a.C_Id;
+
+3. select * from Customer where City = (select City from Customer where Cname = "Pooja");
+
+4. select * from Account where Amount < (select avg(Amount) from Account);
+
+5. select C_Id from Account where Amount = (select max(Amount) from Account);
+
+6. select Acc_Type, min(Amount) from Account group by Acc_Type;
+
+7. select Amount from Account where Amount > (select min(Amount) from Account where Acc_Type = "Saving");
+

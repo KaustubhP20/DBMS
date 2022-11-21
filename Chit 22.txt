@@ -1,0 +1,59 @@
+import java.sql.*;
+import java.util.Scanner;
+
+public class Chit22 {
+    public static void main(String[] args) throws Exception{
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        Scanner sc = new Scanner(System.in);
+
+        String url = "jdbc:mysql://localhost:3306/chit22";
+        String uname = "root";
+        String pass = "2707";
+
+        Connection con = DriverManager.getConnection(url, uname, pass);
+
+        System.out.println("Connection established successfully");
+
+        Statement st = con.createStatement();
+        String query;
+
+        int ch, i = 0;
+
+        do {
+            System.out.println("1.DML Queries\n2.DQL Queries\n3.DDL Queries");
+            System.out.println("Enter a choice:");
+
+            ch = Integer.parseInt(sc.nextLine());
+
+            switch(ch) {
+                case 1:
+                    query = sc.nextLine();
+                    st.execute(query);
+                    System.out.println("DML Query executed successfully");
+                    break;
+
+                case 2:
+                    query = sc.nextLine();
+                    ResultSet rs = st.executeQuery(query);
+                    while(rs.next()) {
+                        System.out.println(rs.getInt(1) + "\t" + rs.getString(2));
+                    }
+                    System.out.println("DQL Query executed successfully");
+                    break;
+
+                case 3:
+                    query = sc.nextLine();
+                    st.executeUpdate(query);
+                    System.out.println("DDL Query executed successfully");
+                    break;
+            }
+
+            System.out.println("Enter 1 to continue or 0 to exit");
+            i = Integer.parseInt(sc.nextLine());
+        }while(i == 1);
+
+
+        con.close();
+    }
+}

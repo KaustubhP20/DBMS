@@ -1,0 +1,24 @@
+chit4> var map = function(){emit (this.state, this.population)};
+   chit4> var reduce = function(k, v) {return Array.sum(v)};
+   chit4> db.city.mapReduce(map, reduce, {out : 'statewise'});
+   chit4> db.statewise.find()
+
+2. chit4> var map = function(){emit (this.city, this.population)};
+   chit4> var reduce = function(k, v) {return Array.sum(v)};
+   chit4> db.city.mapReduce(map, reduce, {out : 'citywise'});
+   chit4> db.citywise.find()
+
+3. chit4> var map = function(){emit (this.type, this.population)};
+   chit4> var reduce = function(k, v) {return Array.sum(v)};
+   chit4> db.city.mapReduce(map, reduce, {out : 'typewise'});
+   chit4> db.typewise.find()
+
+4. chit4> var map = function(){emit (this.city, 1)};
+   chit4> var reduce = function(k, v) {return Array.sum(v)};
+   chit4> db.city.mapReduce(map, reduce, {out : 'citywisecount'});
+   chit4> db.citywisecount.find()
+
+5. chit4> var map = function(){emit (this.state, 1)};
+   chit4> var reduce = function(k, v) {return Array.sum(v)};
+   chit4> db.city.mapReduce(map, reduce, {out : 'statewisecount'});
+   chit4> db.statewisecount.find()

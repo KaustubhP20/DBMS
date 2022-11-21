@@ -1,0 +1,53 @@
+import com.mongodb.*;
+
+import java.util.Scanner;
+
+public class Chit10 {
+    public static void main(String[] args) {
+        MongoClient client = new MongoClient("localhost", 27017);
+        DB db1 = client.getDB("chit10");
+
+        // Creating a collection
+        DBCollection col = db1.createCollection("Students",
+                null);
+        System.out.println("Collection created");
+
+        // Inserting a document
+        BasicDBObject obj1 = new BasicDBObject();
+        obj1.append("Roll", 65);
+        obj1.append("Name", "Siddhesh");
+        col.save(obj1);
+        System.out.println("Document inserted");
+
+        // Displaying a document
+        System.out.println("Displaying the document");
+        DBCursor cur1 = col.find();
+        while(cur1.hasNext()) {
+            System.out.println(cur1.next());
+        }
+
+        // Removing a document
+        BasicDBObject obj2 = new BasicDBObject();
+        obj2.append("Roll", 1);
+        obj2.append("Name", "A");
+        col.save(obj2);
+
+        System.out.println("Before removing the document");
+        DBCursor cur2 = col.find();
+        while(cur2.hasNext()) {
+            System.out.println(cur2.next());
+        }
+
+        col.remove(obj2);
+
+        System.out.println("After removing the document");
+        DBCursor cur3 = col.find();
+        while(cur3.hasNext()) {
+            System.out.println(cur3.next());
+        }
+
+        client.close();
+    }
+}
+
+
