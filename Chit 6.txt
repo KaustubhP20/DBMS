@@ -1,0 +1,119 @@
+SQL> create table stud_marks(Roll_no number(20),name varchar2(20), total_marks 
+number(20));
+Table created.
+SQL> insert into stud_marks values(1,'Ganesh',1200);
+1 row created.
+SQL> insert into stud_marks values(2,'Ram',950);
+1 row created.
+SQL> insert into stud_marks values(3,'Sai',850);
+1 row created.
+SQL> insert into stud_marks values(4,'Laxman',800);
+1 row created.
+SQL> select * from stud_marks;
+ ROLL_NO NAME TOTAL_MARKS
+---------- -------------------- -----------
+ 1 Ganesh 1200
+ 2 Ram 950
+ 3 Sai 850
+ 4 Laxman 800
+SQL> create table result (roll_no number(20),name varchar2(20), class varchar2(20));
+Table created.
+SQL> select * from result;
+no rows selected
+SQL> Create or replace procedure proc_grade
+ 2 (var_rollno in number,
+ 3 p_roll_no out stud_marks.roll_no%type,
+ 4 p_name out stud_marks.name%type,
+ 5 p_total out stud_marks.total_marks%type)
+ 6 AS
+ 7 BEGIN
+ 8 SELECT roll_no, name, total_marks into p_roll_no, p_name, p_total from stud
+_marks where roll_no=var_rollno;
+ 9 IF p_total <=1500 and p_total >= 990 THEN
+10 insert into result values(p_roll_no,p_name,'Distinction');
+11 Else if p_total <=989 and p_total >= 900 THEN
+12 insert into result values(p_roll_no,p_name,'First Class');
+13 Else if p_total <=899 and p_total >= 825 THEN
+14 insert into result values(p_roll_no,p_name,'HSC');
+15 Else
+16 insert into result values(p_roll_no,p_name,'fail');
+PROF. SAGAR SHINDE 12
+17 End if;
+18 End if;
+19 End if;
+20 EXCEPTION
+21 WHEN no_data_found then
+22 dbms_output.put_line('Roll no ' || var_rollno ||' not found');
+23 END;
+24 /
+Procedure created.
+==================================================================
+SQL> DECLARE
+ 2 var_rollno number(20);
+ 3 p_roll_no stud_marks.roll_no%type;
+ 4 p_name stud_marks.name%type;
+ 5 p_total stud_marks.total_marks%type;
+ 6 BEGIN
+ 7 var_rollno:=&var_rollno;
+ 8 Proc_grade(var_rollno,p_roll_no,p_name,p_total);
+ 9 END;
+10 /
+Enter value for var_rollno: 2
+old 7: var_rollno:=&var_rollno;
+new 7: var_rollno:=2;
+PL/SQL procedure successfully completed.
+========================================================
+SQL> select * from result;
+ ROLL_NO NAME CLASS
+---------- -------------------- --------------------
+ 2 Ram First Class
+SQL> DECLARE
+ 2 var_rollno number(20);
+ 3 p_roll_no stud_marks.roll_no%type;
+ 4 p_name stud_marks.name%type;
+ 5 p_total stud_marks.total_marks%type;
+ 6 BEGIN
+ 7 var_rollno:=&var_rollno;
+ 8 Proc_grade(var_rollno,p_roll_no,p_name,p_total);
+ 9 END;
+10 /
+Enter value for var_rollno: 1
+old 7: var_rollno:=&var_rollno;
+new 7: var_rollno:=1;
+PL/SQL procedure successfully completed.
+SQL> select * from result;
+ ROLL_NO NAME CLASS
+PROF. SAGAR SHINDE 13
+---------- -------------------- --------------------
+ 2 Ram First Class
+ 1 Ganesh Distinction
+========================================================
+SQL> DECLARE
+ 2 var_rollno number(20);
+ 3 p_roll_no stud_marks.roll_no%type;
+ 4 p_name stud_marks.name%type;
+ 5 p_total stud_marks.total_marks%type;
+ 6 BEGIN
+ 7 var_rollno:=&var_rollno;
+ 8 Proc_grade(var_rollno,p_roll_no,p_name,p_total);
+ 9 END;
+10 /
+Enter value for var_rollno: 3
+old 7: var_rollno:=&var_rollno;
+new 7: var_rollno:=3;
+PL/SQL procedure successfully completed.
+SQL> DECLARE
+ 2 var_rollno number(20);
+ 3 p_roll_no stud_marks.roll_no%type;
+ 4 p_name stud_marks.name%type;
+ 5 p_total stud_marks.total_marks%type;
+ 6 BEGIN
+ 7 var_rollno:=&var_rollno;
+ 8 Proc_grade(var_rollno,p_roll_no,p_name,p_total);
+ 9 END;
+10 /
+Enter value for var_rollno: 4
+old 7: var_rollno:=&var_rollno;
+new 7: var_rollno:=4;
+PL/SQL procedure successfully completed.
+SQL> select * from result;

@@ -1,0 +1,253 @@
+Create table library(rollno int, name char(10), dateofissue date, nameofbook char(10), 
+status char(10));
+Create table library_audit(rollno int, name char(10), dateofissue date, nameofbook 
+char(10), status char(10), ts timestamp);
+Insert into library values (101, 'Ram',to_date('20170923','YYYYMMDD'),'DBMS', 'I');
+Insert into library values (102, 'Sai',to_date('20170910','YYYYMMDD'),'CN', 'I');
+Insert into library values (103, 'Laxman',to_date('20170928','YYYYMMDD'),'TOC', 'I');
+Insert into library values (104, 'Sai',to_date('20170825','YYYYMMDD'),'SEPM', 'I');
+Insert into library values (105, 'Ganesh',to_date('20170901','YYYYMMDD'),'IEEE', 'I');
+Select * from library;
+Select * from library_audit;
+SQL> select * from library;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS
+---------- ---------- --------- ---------- ----------
+ 101 Ram 23-SEP-17 DBMS I
+ 102 Sai 10-SEP-17 CN I
+ 103 Laxman 28-SEP-17 TOC I
+ 104 Sai 25-AUG-17 SEPM I
+ 105 Ganesh 01-SEP-17 IEEE I
+SQL> Create table library_audit(rollno int, name char(10), dateofissue date, nameofbook 
+char(10), status char(10), ts timestamp);
+Table created.
+SQL> select * from library_audit;
+no rows selected
+***************************************************************************
+AFTER INSERT Trigger – Row Level Trigger
+***************************************************************************
+CREATE OR REPLACE TRIGGER after_insert 
+AFTER INSERT 
+ON library 
+FOR EACH ROW
+BEGIN
+insert into library_audit values(:new.rollno, :new.name, :new.dateofissue, 
+:new.nameofbook, :new.status, current_timestamp);
+END;
+/
+Trigger created.
+SQL> select * from library;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS
+PROF. SAGAR SHINDE 15
+---------- ---------- --------- ---------- ----------
+ 101 Ram 23-SEP-17 DBMS I
+ 102 Sai 10-SEP-17 CN I
+ 103 Laxman 28-SEP-17 TOC I
+ 104 Sai 25-AUG-17 SEPM I
+ 105 Ganesh 01-SEP-17 IEEE I
+SQL> select * from library_audit;
+no rows selected
+SQL> Insert into library values (106, 'Gajanan',to_date('20171001','YYYYMMDD'),'
+DDA', 'I');
+1 row created.
+SQL> select * from library;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS
+---------- ---------- --------- ---------- ----------
+ 101 Ram 23-SEP-17 DBMS I
+ 102 Sai 10-SEP-17 CN I
+ 103 Laxman 28-SEP-17 TOC I
+ 104 Sai 25-AUG-17 SEPM I
+ 105 Ganesh 01-SEP-17 IEEE I
+ 106 Gajanan 01-OCT-17 DDA I
+6 rows selected.
+SQL> select * from library_audit;
+ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS TS
+----------------------------------------------------------------------------------------------------------------
+106 Gajanan 01-OCT-17 DDA I 02-OCT-17 01.07.25.375000 PM
+***************************************************************************
+AFTER UPDATE Trigger – Row Level Trigger
+***************************************************************************
+CREATE OR REPLACE TRIGGER after_update 
+AFTER UPDATE 
+ON Library 
+FOR EACH ROW
+BEGIN
+insert into library_audit values(:old.rollno, :old.name, :old.dateofissue, 
+:old.nameofbook, :old.status, current_timestamp);
+END;
+/
+Trigger created.
+SQL> select * from library;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS
+---------- ---------- --------- ---------- ----------
+ 101 Ram 23-SEP-17 DBMS I
+ 102 Sai 10-SEP-17 CN I
+ 103 Laxman 28-SEP-17 TOC I
+ 104 Sai 25-AUG-17 SEPM I
+ 105 Ganesh 01-SEP-17 IEEE I
+PROF. SAGAR SHINDE 16
+ 106 Gajanan 01-OCT-17 DDA I
+6 rows selected.
+SQL> select * from library_audit;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS TS
+------------------------------------------------------------------------------------- ---------- --------
+ 106 Gajanan 01-OCT-17 DDA I 02-OCT-17 01.07.25.375000 PM
+SQL> update library set nameofbook ='MongoDB' where library.rollno=101;
+1 row updated.
+SQL> select * from library;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS
+---------- ---------- --------- ---------- ----------
+ 101 Ram 23-SEP-17 MongoDB I
+ 102 Sai 10-SEP-17 CN I
+ 103 Laxman 28-SEP-17 TOC I
+ 104 Sai 25-AUG-17 SEPM I
+ 105 Ganesh 01-SEP-17 IEEE I
+ 106 Gajanan 01-OCT-17 DDA I
+6 rows selected.
+SQL> select * from library_audit;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS TS
+------------------------------------------------------------------------------------- ---------- --------- ------
+-106 Gajanan 01-OCT-17 DDA I 02-OCT-17 01.07.25.375000 PM
+101 Ram 23-SEP-17 DBMS I 02-OCT-17 01.58.22.372000 PM
+***************************************************************************
+AFTER DELETE Trigger – Row Level Trigger
+***************************************************************************
+CREATE TRIGGER after_delete 
+AFTER DELETE 
+ON Library
+FOR EACH ROW
+BEGIN
+insert into library_audit values(:old.rollno, :old.name, :old.dateofissue, 
+:old.nameofbook, :old.status, current_timestamp);
+END;
+/
+Trigger created.
+SQL> select * from library;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS
+---------- ---------- --------- ---------- ----------
+ 101 Ram 23-SEP-17 MongoDB I
+ 102 Sai 10-SEP-17 CN I
+ 103 Laxman 28-SEP-17 TOC I
+ 104 Sai 25-AUG-17 SEPM I
+ 105 Ganesh 01-SEP-17 IEEE I
+PROF. SAGAR SHINDE 17
+ 106 Gajanan 01-OCT-17 DDA I
+6 rows selected.
+SQL> select * from library_audit;
+ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS TS
+------------------------------------------------------------------------------------- ---------- --------- ------
+-
+106 Gajanan 01-OCT-17 DDA I 02-OCT-17 01.07.25.375000 PM
+101 Ram 23-SEP-17 MongoDB I 02-OCT-17 01.58.22.372000 PM
+SQL> delete from library where rollno=102;
+1 row deleted.
+SQL> select * from library;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS
+---------- ---------- --------- ---------- ----------
+ 101 Ram 23-SEP-17 MongoDB I
+ 103 Laxman 28-SEP-17 TOC I
+ 104 Sai 25-AUG-17 SEPM I
+ 105 Ganesh 01-SEP-17 IEEE I
+ 106 Gajanan 01-OCT-17 DDA I
+SQL> select * from library_audit;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS TS
+------------------------------------------------------------------------------------- ---------- --------- ------
+-
+102 Sai 10-SEP-17 CN I 02-OCT-17 02.15.24.618000 PM
+106 Gajanan 01-OCT-17 DDA I 02-OCT-17 01.07.25.375000 PM
+101 Ram 23-SEP-17 MongoDB I 02-OCT-17 01.58.22.372000 PM
+SQL>
+***************************************************************************
+AFTER Trigger – Row Level Trigger (INSERT/UPDATE/DELETE)
+***************************************************************************
+Create table lib(rollno int, name char(10), dateofissue date, nameofbook char(10), status 
+char(10));
+Create table lib_audit(rollno int, name char(10), dateofissue date, nameofbook char(10), 
+status char(10), ts timestamp,command varchar2(10));
+Insert into lib values (101, 'Ram',to_date('20170923','YYYYMMDD'),'DBMS', 'I');
+Insert into lib values (102, 'Sai',to_date('20170910','YYYYMMDD'),'CN', 'I');
+Insert into lib values (103, 'Laxman',to_date('20170928','YYYYMMDD'),'TOC', 'I');
+Insert into lib values (104, 'Sai',to_date('20170825','YYYYMMDD'),'SEPM', 'I');
+Insert into lib values (105, 'Ganesh',to_date('20170901','YYYYMMDD'),'IEEE', 'I');
+Select * from lib;
+Select * from lib_audit;
+==================================================================
+CREATE OR REPLACE TRIGGER AT1
+AFTER INSERT OR DELETE OR UPDATE
+PROF. SAGAR SHINDE 18
+ON lib
+FOR EACH ROW
+BEGIN
+IF UPDATING THEN
+insert into lib_audit values(:old.rollno, :old.name, :old.dateofissue, 
+:old.nameofbook, :old.status, current_timestamp, ' UPDATE');
+ELSIF INSERTING THEN
+insert into lib_audit values(:new.rollno, :new.name, :new.dateofissue, 
+:new.nameofbook, :new.status, current_timestamp,'INSERT');
+ELSIF DELETING THEN
+insert into lib_audit values(:old.rollno, :old.name, :old.dateofissue, 
+:old.nameofbook, :old.status, current_timestamp, 'DELETE');
+END IF;
+END;
+/
+Trigger created.
+==================================================================
+***** OUTPUT *****
+*****Insert Operation*****
+SQL> Insert into lib values(106,'Gajanan',to_date('20171001','YYYYMMDD'),'DDA','I');
+1 row created.
+SQL> select * from lib;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS
+---------- ---------- --------- ---------- ----------
+ 101 Ram 23-SEP-17 DBMS I
+ 102 Sai 10-SEP-17 CN I
+ 103 Laxman 28-SEP-17 TOC I
+ 104 Sai 25-AUG-17 SEPM I
+ 105 Ganesh 01-SEP-17 IEEE I
+ 106 Gajanan 01-OCT-17 DDA I
+6 rows selected.
+SQL> select * from lib_audit;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS TS COMMAND
+---------- ---------- --------- ---------- ----------------------------------------------------------------------
+ 106 Gajanan 01-OCT-17 DDA I 02-OCT-17 11.12.03.791000 PM INSERT
+SQL>
+==================================================================
+*****Update Operation*****
+SQL> update lib set nameofbook ='MongoDB' where lib.rollno=101;
+1 row updated.
+SQL> select * from lib;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS
+---------- ---------- --------- ---------- ----------
+ 101 Ram 23-SEP-17 MongoDB I
+ 102 Sai 10-SEP-17 CN I
+ 103 Laxman 28-SEP-17 TOC I
+PROF. SAGAR SHINDE 19
+ 104 Sai 25-AUG-17 SEPM I
+ 105 Ganesh 01-SEP-17 IEEE I
+ 106 Gajanan 01-OCT-17 DDA I
+6 rows selected.
+SQL> select * from lib_audit;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS TS COMMAND
+---------- ---------- --------- ---------- ----------------------------------------------------------------------
+ 106 Gajanan 01-OCT-17 DDA I 02-OCT-17 11.12.03.791000 PM INSERT
+101 Ram 23-SEP-17 DBMS I 02-OCT-17 11.14.21.436000 PM UPDATE
+==================================================================
+*****Delete Operation*****
+SQL> delete from lib where rollno=102;
+1 row deleted.
+SQL>
+SQL> select * from lib_audit;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS TS COMMAND
+---------- ---------- --------- ---------- ----------------------------------------------------------------------
+106 Gajanan 01-OCT-17 DDA I 02-OCT-17 11.12.03.791000 PM INSERT
+101 Ram 23-SEP-17 MongoDB I 02-OCT-17 11.14.21.436000 PM UPDATE
+102 Sai 10-SEP-17 CN I 02-OCT-17 11.16.03.851000 PM DELETE
+SQL> select * from lib;
+ ROLLNO NAME DATEOFISS NAMEOFBOOK STATUS
+---------- ---------- --------- ---------- ----------
+ 101 Ram 23-SEP-17 MongoDB I
+ 103 Laxman 28-SEP-17 TOC I
+ 104 Sai 25-AUG-17 SEPM I
+ 105 Ganesh 01-SEP-17 IEEE I
+ 106 Gajanan 01-OCT-17 DDA I
+SQL>
+=============
